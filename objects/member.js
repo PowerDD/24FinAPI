@@ -334,6 +334,17 @@ exports.action = function(req, res, control, action, url) {
 				}
 			}
 		}
+		else if (action == 'order') {
+			if (url[0] == 'header') {
+				if (typeof req.body.authKey == 'undefined' || req.body.authKey == '') {
+					data.error = 'Please fill out all required fields';
+					res.json(data);
+				}
+				else {
+					util.query(req, res, control, 'data', 'EXEC sp_DataOrderHistory \''+req.body.authKey+'\'');
+				}
+			}
+		}
 		else if (action == 'address') {
 			if (url[0] == 'data') {
 				if (typeof req.body.authKey == 'undefined' || req.body.authKey == '' ) {
